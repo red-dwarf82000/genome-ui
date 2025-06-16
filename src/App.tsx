@@ -16,7 +16,8 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
-  const [result, setResult] = useState<ResultType | null>(null)
+  const [result, setResult] = useState<ResultType | null>(null);
+  const [showMolecularInfo, setShowMolecularInfo] = useState(false);
 
   const handleSearch = () => {
     setLoading(true);
@@ -105,15 +106,82 @@ function App() {
       <p className="result-text">Common Name: {result.genbank_common_name}</p>
     </div>
 
-    {showModal && (
-      <div className="modal-overlay" onClick={() => setShowModal(false)}>
-        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-          <h2>Details for {result?.organism_name}</h2>
-          <pre>{JSON.stringify(details, null, 2)}</pre>
-          <button className="btn glass-button mt-3" onClick={() => setShowModal(false)}>Close</button>
+    {showModal && details && (
+  <div className="modal-overlay" onClick={() => setShowModal(false)}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <h2 className="modal-title">Taxon Details</h2>
+      <form className="modal-form">
+        <div className="form-row">
+        <div className="form-group">
+          <label>Organism Name</label>
+          <input type="text" value={details.organism_name} readOnly />
         </div>
-      </div>
-    )}
+        <div className="form-group">
+          <label>Taxon ID</label>
+          <input type="text" value={details.tax_id} readOnly />
+        </div>
+        </div>
+        <div className="form-row">
+        <div className="form-group">
+          <label>Common Name</label>
+          <input type="text" value={details.genbank_common_name} readOnly />
+        </div>
+        <div className="form-group">
+          <label>Rank</label>
+          <input type="text" value={details.rank} readOnly />
+        </div>
+        </div>
+        <div className="form-row">
+        <div className="form-group">
+          <label>Blast Name</label>
+          <input type="text" value={details.blast_name} readOnly />
+        </div>
+        <div className="form-group">
+          <label>Lineage</label>
+          <input type="text" value={details.rank} readOnly />
+        </div>
+        </div>
+        {/* --- Molecular Information Collapsible Section --- */}
+        <div className="molecular-section">
+          <div
+            className="molecular-header"
+            onClick={() => setShowMolecularInfo(!showMolecularInfo)}
+          >
+            <h3>Molecular Information</h3>
+            <span className="toggle-icon">{showMolecularInfo ? '▼' : '▶'}</span>
+          </div>
+
+          {showMolecularInfo && (
+            <div className="molecular-table">
+              <div className="molecular-table-header">
+                <div className="col">Type</div>
+                <div className="col">Count</div>
+              </div>
+
+              {(details.counts as { type: string; count: number }[])
+                .filter((entry) =>
+                  [
+                    'COUNT_TYPE_GENE',
+                    'COUNT_TYPE_PROTEIN_CODING',
+                    'COUNT_TYPE_ncRNA',
+                    'COUNT_TYPE_BIOLOGICAL_REGION'
+                  ].includes(entry.type)
+                )
+                .map((entry) => (
+                  <div key={entry.type} className="molecular-table-row">
+                    <div className="col">{entry.type.replace('COUNT_TYPE_', '')}</div>
+                    <div className="col">{entry.count}</div>
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
+        {/* Add more fields as needed */}
+      </form>
+      <button className="btn close-button mt-3" onClick={() => setShowModal(false)}>Close</button>
+    </div>
+  </div>
+)}
   </>
 )}
     </div>

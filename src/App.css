@@ -130,38 +130,170 @@ body {
 }
 
 
+/* Modal overlay background */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(6px);
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5); /* dim background */
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Modal content container */
 .modal-content {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border-radius: 15px;
+  background: #fff;
   padding: 2rem;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  max-width: 400px;
+  border-radius: 1rem;
   width: 90%;
-  animation: fadeIn 0.4s ease-in-out;
+  max-width: 500px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: slideUp 0.3s ease-out;
 }
 
-
-.modal-content {
-  transform: scale(0.95);
-  transition: transform 0.2s ease;
+/* Modal title */
+.modal-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2d3748; /* dark gray-blue */
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid #e2e8f0; /* light gray line */
+  padding-bottom: 0.5rem;
 }
 
-.modal-overlay:has(.modal-content) .modal-content {
-  transform: scale(1);
+/* Form layout */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Individual form group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Read-only input fields */
+.form-group input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background: #f9f9f9;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Close button */
+.close-button {
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  display: block;
+  margin: 1.5rem auto 0;
+  transition: background 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: #c53030;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Main container for the section */
+.molecular-section {
+  margin-top: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  padding: 16px;
+}
+
+/* Clickable header */
+.molecular-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+/* Triangle icon for toggle */
+.toggle-icon {
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+/* Header row for table */
+.molecular-table-header {
+  display: flex;
+  font-weight: bold;
+  padding: 8px 0;
+  border-bottom: 2px solid #ccc;
+}
+
+/* Row in the data table */
+.molecular-table-row {
+  display: flex;
+  padding: 6px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Individual column */
+.molecular-table-row .col,
+.molecular-table-header .col {
+  flex: 1;
+  padding-right: 12px;
+}
+
+/* Optional: Hover effect for rows */
+.molecular-table-row:hover {
+  background-color: #eef2f5;
+}
+
+/* Container for the molecular info table */
+.molecular-table {
+  border-top: 1px solid #ccc;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
